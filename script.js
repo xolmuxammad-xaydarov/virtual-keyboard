@@ -12,19 +12,12 @@ const eventKeyEng = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-',
 //   'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', '▲',
 //   'Ctr', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►'];
 
-const wrapper = document.createElement('div');
-wrapper.classList.add('wrapper');
-document.body.prepend(wrapper);
-
-const keyboard = document.createElement('div');
-keyboard.classList.add('keyboard');
-
 const textarea = document.createElement('textarea');
-textarea.classList.add('textarea');
 
-wrapper.append(textarea, keyboard);
+const outputArr = [];
 
 const addAllKeys = (arr, arr1) => {
+  const result = [];
   for (let i = 0; i < arr.length; i += 1) {
     const keyBtn = document.createElement('button');
     keyBtn.classList.add('keyboard__key');
@@ -40,7 +33,79 @@ const addAllKeys = (arr, arr1) => {
       keyBtn.classList.add('keyboard__key-short');
     }
     keyBtn.textContent = arr1[i];
-    keyboard.append(keyBtn);
+    result.push(keyBtn);
   }
+  return result;
 };
 addAllKeys(eventCode, eventKeyEng);
+
+function init() {
+  textarea.classList.add('textarea');
+
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('wrapper');
+  document.body.prepend(wrapper);
+
+  const keyboard = document.createElement('div');
+  keyboard.classList.add('keyboard');
+  keyboard.append(...addAllKeys(eventCode, eventKeyEng));
+  wrapper.append(textarea, keyboard);
+}
+
+init();
+
+function keyPressListener() {
+  document.addEventListener('keypress', (e) => {
+    if (e.code === 'Enter') {
+      textarea.value += '\n';
+    } else {
+      const key = document.querySelector(`.keyboard__key[data="${e.code}"]`);
+      outputArr.push(key.textContent);
+      textarea.value += outputArr[outputArr.length - 1];
+    }
+  });
+}
+
+keyPressListener();
+
+function clickListenter() {
+  document.querySelectorAll('.keyboard__key').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      if (e.target.textContent === 'Backspace') {
+        outputArr.pop();
+        textarea.value = textarea.value.slice(0, -1);
+      } else if (e.target.textContent === 'Enter') {
+        enterClick();
+      } else if (e.target.textContent === 'CapsLock') {
+        capsLock();
+      } else if (e.target.textContent === 'Tab') {
+        e.preventDefault();
+        outputArr.push(' ', ' ');
+        textarea.value += '  ';
+      } else if (e.target.textContent === 'Shift' || e.target.textContent === 'Ctr' || e.target.textContent === 'Win' || e.target.textContent === 'Alt') {
+        return false;
+      } else {
+        outputArr.push(e.target.textContent);
+        textarea.value += outputArr[outputArr.length - 1];
+      }
+    });
+  });
+}
+
+clickListenter();
+
+function capsLock() {
+  let isCapsLock = false;
+  if (!isCapsLock) {
+    document.querySelectorAll('.keyboard__key').forEach((btn) => {
+      if (btn.textContent.length === 1) {
+        btn.textContent = btn.textContent.toUpperCase();
+      }
+    });
+    isCapsLock = true;
+  }
+}
+
+function enterClick() {
+  textarea.value += '\n';
+}
