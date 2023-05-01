@@ -15,5 +15,6 @@ module.exports = {
     'linebreak-style': ['error', 'windows'],
     'no-param-reassign': 0,
     'no-use-before-define': 0,
+    'consistent-return': 0,
   },
 };

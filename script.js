@@ -6,11 +6,11 @@ const eventKeyEng = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-',
   'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲',
   'Ctr', 'Win', 'Alt', ' ', 'Alt', 'Ctr', '◄', '▼', '►'];
 
-// consteventKeyRus = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-//   'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ё',
-//   'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
-//   'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', '▲',
-//   'Ctr', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►'];
+const eventKeyRus = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+  'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ё',
+  'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
+  'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', '▲',
+  'Ctr', 'Win', 'Alt', ' ', 'Alt', 'Ctr', '◄', '▼', '►'];
 
 const textarea = document.createElement('textarea');
 
@@ -52,8 +52,6 @@ function init() {
   wrapper.append(textarea, keyboard);
 }
 
-init();
-
 function keyPressListener() {
   document.addEventListener('keypress', (e) => {
     if (e.code === 'Enter') {
@@ -65,8 +63,6 @@ function keyPressListener() {
     }
   });
 }
-
-keyPressListener();
 
 function clickListenter() {
   document.querySelectorAll('.keyboard__key').forEach((btn) => {
@@ -92,8 +88,6 @@ function clickListenter() {
   });
 }
 
-clickListenter();
-
 function capsLock() {
   let isCapsLock = false;
   if (!isCapsLock) {
@@ -109,3 +103,126 @@ function capsLock() {
 function enterClick() {
   textarea.value += '\n';
 }
+
+function activeKeyDown() {
+  document.addEventListener('keydown', (e) => {
+    document.querySelectorAll('button').forEach((btn) => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`.keyboard__key[data="${e.code}"]`).classList.add('active');
+    if (e.code === 'Backspace') {
+      outputArr.pop();
+      textarea.value = textarea.value.slice(0, -1);
+    }
+
+    if (e.code === 'Tab') {
+      e.preventDefault();
+      textarea.value += '  ';
+      outputArr.push(' ', ' ');
+    }
+
+    if (e.code === 'CapsLock') {
+      capsLock();
+    }
+
+    if (e.code === 'ArrowRight') {
+      outputArr.push('►');
+      textarea.value += '►';
+    }
+
+    if (e.code === 'ArrowLeft') {
+      outputArr.push('◄');
+      textarea.value += '◄';
+    }
+
+    if (e.code === 'ArrowUp') {
+      outputArr.push('▲');
+      textarea.value += '▲';
+    }
+
+    if (e.code === 'ArrowDown') {
+      outputArr.push('▼');
+      textarea.value += '▼';
+    }
+
+    if (e.code === 'ShiftLeft') {
+      document.querySelectorAll('.keyboard__key').forEach((btn) => {
+        if (btn.textContent.length === 1) {
+          btn.textContent = btn.textContent.toUpperCase();
+        }
+      });
+    }
+    pressedKey.push(e.code);
+    for (let i = 0; i < pressedKey.length; i += 1) {
+      if (pressedKey[i] === 'ControlLeft' && pressedKey[i + 1] === 'AltLeft') {
+        changeLanguageOuter();
+      }
+    }
+  });
+}
+
+activeKeyDown();
+
+function activeKeyUp() {
+  document.addEventListener('keyup', (e) => {
+    document.querySelectorAll('button').forEach((btn) => {
+      btn.classList.remove('active');
+    });
+
+    if (e.code === 'ShiftLeft') {
+      document.querySelectorAll('.keyboard__key').forEach((btn) => {
+        if (btn.textContent.length === 1) {
+          btn.textContent = btn.textContent.toLowerCase();
+        }
+      });
+    }
+  });
+}
+
+activeKeyUp();
+
+function langFromLocal() {
+  if (localStorage.getItem('isEng') === false) {
+    changeToRus();
+  } else if (localStorage.getItem('isEng') === true) {
+    changeToEng();
+  }
+}
+
+const pressedKey = [];
+let isEng = true;
+
+function changeLanguageOuter() {
+  if (!isEng) {
+    isEng = true;
+    localStorage.setItem('isEng', isEng);
+    changeToEng();
+  } else {
+    isEng = false;
+    localStorage.setItem('isEng', isEng);
+    changeToRus();
+  }
+}
+
+function changeToRus() {
+  document.querySelectorAll('button').forEach((btn, i) => {
+    btn.textContent = eventKeyRus[i];
+  });
+  pressedKey.length = 0;
+}
+
+function changeToEng() {
+  document.querySelectorAll('button').forEach((btn, i) => {
+    btn.textContent = eventKeyEng[i];
+  });
+  pressedKey.length = 0;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  keyPressListener();
+  clickListenter();
+  activeKeyDown();
+  activeKeyUp();
+  langFromLocal();
+});
