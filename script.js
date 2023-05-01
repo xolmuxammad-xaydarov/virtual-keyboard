@@ -12,14 +12,23 @@ const eventKeyRus = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-',
   'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', '▲',
   'Ctr', 'Win', 'Alt', ' ', 'Alt', 'Ctr', '◄', '▼', '►'];
 
+const h3Title = document.createElement('h3');
+h3Title.classList.add('title');
+h3Title.textContent = 'RSS Virtual keyboard';
 const textarea = document.createElement('textarea');
-
+const p = document.createElement('p');
+p.classList.add('description');
+p.textContent = 'Created on Win';
+const lang = document.createElement('p');
+lang.classList.add('description2');
+lang.textContent = 'Language change: Ctrl + Alt';
 const outputArr = [];
 
 const addAllKeys = (arr, arr1) => {
   const result = [];
   for (let i = 0; i < arr.length; i += 1) {
     const keyBtn = document.createElement('button');
+    keyBtn.setAttribute('title', 'btn');
     keyBtn.classList.add('keyboard__key');
     keyBtn.setAttribute('data', arr[i]);
     if (keyBtn.getAttribute('data') === 'Space') {
@@ -45,10 +54,12 @@ function init() {
   const wrapper = document.createElement('div');
   wrapper.classList.add('wrapper');
   document.body.prepend(wrapper);
+  document.body.append(p, lang);
 
   const keyboard = document.createElement('div');
   keyboard.classList.add('keyboard');
   keyboard.append(...addAllKeys(eventCode, eventKeyEng));
+  wrapper.prepend(h3Title);
   wrapper.append(textarea, keyboard);
 }
 
