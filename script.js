@@ -12,14 +12,23 @@ const eventKeyRus = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-',
   'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', '▲',
   'Ctr', 'Win', 'Alt', ' ', 'Alt', 'Ctr', '◄', '▼', '►'];
 
+const h3Title = document.createElement('h3');
+h3Title.classList.add('title');
+h3Title.textContent = 'RSS Virtual keyboard';
 const textarea = document.createElement('textarea');
-
+const p = document.createElement('p');
+p.classList.add('description');
+p.textContent = 'Created on Win';
+const lang = document.createElement('p');
+lang.classList.add('description2');
+lang.textContent = 'Language change: Ctrl + Alt';
 const outputArr = [];
 
 const addAllKeys = (arr, arr1) => {
   const result = [];
   for (let i = 0; i < arr.length; i += 1) {
     const keyBtn = document.createElement('button');
+    keyBtn.setAttribute('title', 'btn');
     keyBtn.classList.add('keyboard__key');
     keyBtn.setAttribute('data', arr[i]);
     if (keyBtn.getAttribute('data') === 'Space') {
@@ -37,7 +46,6 @@ const addAllKeys = (arr, arr1) => {
   }
   return result;
 };
-addAllKeys(eventCode, eventKeyEng);
 
 function init() {
   textarea.classList.add('textarea');
@@ -45,11 +53,15 @@ function init() {
   const wrapper = document.createElement('div');
   wrapper.classList.add('wrapper');
   document.body.prepend(wrapper);
+  document.body.append(p, lang);
 
   const keyboard = document.createElement('div');
   keyboard.classList.add('keyboard');
   keyboard.append(...addAllKeys(eventCode, eventKeyEng));
+  wrapper.prepend(h3Title);
   wrapper.append(textarea, keyboard);
+
+  langFromLocal();
 }
 
 function keyPressListener() {
@@ -78,8 +90,12 @@ function clickListenter() {
         e.preventDefault();
         outputArr.push(' ', ' ');
         textarea.value += '  ';
-      } else if (e.target.textContent === 'Shift' || e.target.textContent === 'Ctr' || e.target.textContent === 'Win' || e.target.textContent === 'Alt') {
+      } else if (e.target.textContent === 'Ctr' || e.target.textContent === 'Win' || e.target.textContent === 'Alt') {
         return false;
+      } else if (e.target.textContent === 'Shift') {
+        if (e.target.textContent.length === 1) {
+          e.target.textContent = e.target.textContent.toUpperCase();
+        }
       } else {
         outputArr.push(e.target.textContent);
         textarea.value += outputArr[outputArr.length - 1];
@@ -88,8 +104,8 @@ function clickListenter() {
   });
 }
 
+let isCapsLock = false;
 function capsLock() {
-  let isCapsLock = false;
   if (!isCapsLock) {
     document.querySelectorAll('.keyboard__key').forEach((btn) => {
       if (btn.textContent.length === 1) {
@@ -97,6 +113,13 @@ function capsLock() {
       }
     });
     isCapsLock = true;
+  } else {
+    document.querySelectorAll('.keyboard__key').forEach((btn) => {
+      if (btn.textContent.length === 1) {
+        btn.textContent = btn.textContent.toLowerCase();
+      }
+    });
+    isCapsLock = false;
   }
 }
 
@@ -161,8 +184,6 @@ function activeKeyDown() {
   });
 }
 
-activeKeyDown();
-
 function activeKeyUp() {
   document.addEventListener('keyup', (e) => {
     document.querySelectorAll('button').forEach((btn) => {
@@ -179,13 +200,11 @@ function activeKeyUp() {
   });
 }
 
-activeKeyUp();
-
 function langFromLocal() {
-  if (localStorage.getItem('isEng') === false) {
-    changeToRus();
-  } else if (localStorage.getItem('isEng') === true) {
+  if (localStorage.getItem('isEng') === true) {
     changeToEng();
+  } else if (localStorage.getItem('isEng') === false) {
+    changeToRus();
   }
 }
 
@@ -205,20 +224,20 @@ function changeLanguageOuter() {
 }
 
 function changeToRus() {
-  document.querySelectorAll('button').forEach((btn, i) => {
+  document.querySelectorAll('.keyboard__key').forEach((btn, i) => {
     btn.textContent = eventKeyRus[i];
   });
   pressedKey.length = 0;
 }
 
 function changeToEng() {
-  document.querySelectorAll('button').forEach((btn, i) => {
+  document.querySelectorAll('.keyboard__key').forEach((btn, i) => {
     btn.textContent = eventKeyEng[i];
   });
   pressedKey.length = 0;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   init();
   keyPressListener();
   clickListenter();

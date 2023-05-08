@@ -3,7 +3,7 @@
   margin: 0 auto;
 
   .textarea {
-    width: 56rem;
+    width: 57.5rem;
     height: 17rem;
     font-size: 20px;
   }
@@ -16,7 +16,7 @@
   display: flex;
   flex-wrap: wrap;
   position: absolute;
-  top: 19rem;
+  top: 23rem;
   left: 50%;
   transform: translateX(-50%);
 
@@ -51,11 +51,11 @@
     }
 
     &-middle {
-      width: 10rem;
+      width: 10.27rem;
     }
 
     &-wide {
-      width: 27.5rem;
+      width: 28.5rem;
     }
   }
 }
@@ -67,4 +67,24 @@
 .active {
   background-color: rgba(6, 12, 45, .8);
   box-shadow: 0 5px 10px rgba(0,0,0, .7);
+}
+
+.title {
+  font-size: 25px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.description{
+  position: absolute;
+  top: 44rem;
+  left: 18%;
+  font-size: 1.2rem;
+}
+
+.description2{
+  position: absolute;
+  top: 46rem;
+  left: 18%;
+  font-size: 1.2rem;
+  padding: 0 0 30px;
 }
