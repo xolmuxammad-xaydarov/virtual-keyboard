@@ -1,0 +1,90 @@
+.wrapper {
+  width: 58rem;
+  margin: 0 auto;
+
+  .textarea {
+    width: 57.5rem;
+    height: 17rem;
+    font-size: 20px;
+  }
+}
+
+.keyboard {
+  width: 59rem;
+  border: 1px solid;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 23rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &__key {
+    width: 49.2px;
+    height: 50px;
+    font-size: 1.2rem;
+    border: none;
+    outline: none;
+    background-color: #b06052;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    transition: all 0.2s;
+    margin: 5px;
+
+    &:hover {
+      background-color: rgb(125, 79, 44);
+    }
+
+    &:active {
+      background-color: rgba(145, 102, 46, 0.8);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    &-short {
+      width: 6.5rem;
+    }
+
+    &-middle {
+      width: 10.27rem;
+    }
+
+    &-wide {
+      width: 28.5rem;
+    }
+  }
+}
+
+.key__bg {
+  background-color: rgba(145, 102, 46, 0.8);
+}
+
+.active {
+  background-color: rgba(6, 12, 45, .8);
+  box-shadow: 0 5px 10px rgba(0,0,0, .7);
+}
+
+.title {
+  font-size: 25px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.description{
+  position: absolute;
+  top: 44rem;
+  left: 18%;
+  font-size: 1.2rem;
+}
+
+.description2{
+  position: absolute;
+  top: 46rem;
+  left: 18%;
+  font-size: 1.2rem;
+  padding: 0 0 30px;
+}

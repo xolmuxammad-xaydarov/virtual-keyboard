@@ -1,0 +1,98 @@
+.wrapper {
+  width: 58rem;
+  margin: 0 auto;
+}
+.wrapper .textarea {
+  width: 57.5rem;
+  height: 17rem;
+  font-size: 20px;
+}
+
+.keyboard {
+  width: 59rem;
+  border: 1px solid;
+  padding: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  position: absolute;
+  top: 23rem;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.keyboard__key {
+  width: 49.2px;
+  height: 50px;
+  font-size: 1.2rem;
+  border: none;
+  outline: none;
+  background-color: #b06052;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  vertical-align: top;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+  margin: 5px;
+}
+.keyboard__key:hover {
+  background-color: rgb(125, 79, 44);
+}
+.keyboard__key:active {
+  background-color: rgba(145, 102, 46, 0.8);
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+}
+.keyboard__key-short {
+  width: 6.5rem;
+}
+.keyboard__key-middle {
+  width: 10.27rem;
+}
+.keyboard__key-wide {
+  width: 28.5rem;
+}
+
+.key__bg {
+  background-color: rgba(145, 102, 46, 0.8);
+}
+
+.active {
+  background-color: rgba(6, 12, 45, 0.8);
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+}
+
+.title {
+  font-size: 25px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.description {
+  position: absolute;
+  top: 44rem;
+  left: 18%;
+  font-size: 1.2rem;
+}
+
+.description2 {
+  position: absolute;
+  top: 46rem;
+  left: 18%;
+  font-size: 1.2rem;
+  padding: 0 0 30px;
+}
